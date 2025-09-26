@@ -135,6 +135,9 @@ class VibeTracker {
         this.moodValue.textContent = mood;
         this.moodDescription.textContent = this.getMoodDescription(energy, mood);
 
+        // Show selection overlay
+        this.currentSelection.classList.add('visible');
+
         // Enable log button
         this.logMoodBtn.disabled = false;
         this.currentSelection = { energy, mood, cell };
@@ -146,8 +149,9 @@ class VibeTracker {
             if (!this.currentSelection || this.currentSelection.cell !== cell) {
                 this.energyValue.textContent = '--';
                 this.moodValue.textContent = '--';
-                this.moodDescription.textContent = 'Click on the grid to log your current state';
+                this.moodDescription.textContent = 'Tap anywhere on the grid';
                 this.logMoodBtn.disabled = true;
+                this.currentSelection.classList.remove('visible');
             }
         }
     }
@@ -258,8 +262,9 @@ class VibeTracker {
         this.currentSelection = null;
         this.energyValue.textContent = '--';
         this.moodValue.textContent = '--';
-        this.moodDescription.textContent = 'Click on the grid to log your current state';
+        this.moodDescription.textContent = 'Tap anywhere on the grid';
         this.logMoodBtn.disabled = true;
+        document.getElementById('currentSelection').classList.remove('visible');
     }
 
     showSuccessToast() {
@@ -511,19 +516,13 @@ class VibeTracker {
     }
 
     showQuickLog() {
-        // Scroll to grid and highlight it
-        document.querySelector('.mood-section').scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-
-        // Add a subtle animation to draw attention
+        // Add a subtle animation to draw attention to the grid
         setTimeout(() => {
             this.moodGrid.style.transform = 'scale(1.02)';
             setTimeout(() => {
                 this.moodGrid.style.transform = 'scale(1)';
             }, 200);
-        }, 500);
+        }, 100);
     }
 
     scrollToInsights() {
