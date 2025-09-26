@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Icon Generator</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="512" height="512" style="border: 1px solid #ccc;"></canvas>
+    <br>
+    <button onclick="generateIcons()">Generate Icons</button>
+    <button onclick="downloadIcon(192)">Download 192x192</button>
+    <button onclick="downloadIcon(512)">Download 512x512</button>
+
+    <script>
+        function generateIcons() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Dark gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+            gradient.addColorStop(0, '#1e293b');
+            gradient.addColorStop(1, '#334155');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 512, 512);
+
+            // Heart icon
+            ctx.fillStyle = '#8b5cf6';
+            ctx.font = 'bold 300px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('💜', 256, 256);
+
+            // Add some glow effect
+            ctx.shadowColor = '#8b5cf6';
+            ctx.shadowBlur = 20;
+            ctx.fillText('💜', 256, 256);
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.getElementById('canvas');
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCanvas.width = size;
+            tempCanvas.height = size;
+
+            tempCtx.drawImage(canvas, 0, 0, size, size);
+
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = tempCanvas.toDataURL();
+            link.click();
+        }
+
+        // Generate on load
+        window.onload = generateIcons;
+    </script>
+</body>
+
+</html>
